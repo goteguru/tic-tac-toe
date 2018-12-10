@@ -1,22 +1,32 @@
 from bottle import get, post, run, request, response
 import json
-game="_________"
+game=list("_________")
 endgame=[(0,1,2), (3,4,5), (6,7,8), (0,4,8), (2,4,6)]
 
 def lep(ember):
-    response.content_type = 'application/json'
-    pos=request.form.get-1
-    if game[pos]=="-":
-        game[pos]=ember
-        for i in endgame:
-            if i[0]==i[1]==i[2]:
-                return json.dumps({"error": 0, "result": ember})
-        return json.dumps({"error": 0, "game": game})
+    if game.count("x")==game.count("o"):
+        turn="x"
     else:
-        for i in endgame:
-            if i[0]==i[1]==i[2]:
-                 return json.dumps({"error": 0, "result": "_"})   
-        return json.dumps({"error": 1, "message": "foglalt"})
+        turn="o"
+    global game
+    response.content_type = 'application/json'
+    pos=int(request.forms.get("pos"))-1
+    if pos not in [0,1,2,3,4,5,6,7,8]:
+        return json.dumps({"error": 1, "message": "outofrange"})
+    if turn==ember:
+        if game[pos]=="_":
+            game[pos]=ember
+            print (game)
+            for i in endgame:
+                if i[0]==i[1]==i[2]==ember:
+                    return json.dumps({"error": 0, "result": ember})
+                if "_" not in game:
+                    return json.dumps({"error": 0, "result": "_", "game": "".join(game)})  
+            return json.dumps({"error": 0, "game": "".join(game)})
+        else:
+            return json.dumps({"error": 1, "message": "foglalt"})
+    else:
+        return json.dumps({"error": 1, "message": "notturn"})
         
     
 @post("/x")
@@ -27,9 +37,14 @@ def x():
 def o():
     lep("o")
 
+@get("/newgame")
+def newgame():
+    global game
+    game=list("________")
+    return json.dumps({"error": 0, "game": "".join(game)})
 
 @get("/game")
 def return_game():
-    json.dumps({"error": 0, "game": game})
+    return json.dumps({"error": 0, "game": "".join(game)})
    
 run(host='192.168.111.183', port=1111, debug=True)
