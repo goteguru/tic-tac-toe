@@ -2,7 +2,8 @@ import requests
 
 #jatek allas lekerdezese
 def jatek_lekerdezes():
-    r = requests.get('http://192.168.111.183/game')
+    response = requests.get('http://192.168.111.183:1111/game')
+    r = response.json()["game"]
     print('- - - - - - -')
     print('|', r[0], '|', r[1], '|', r[2], '|')
     print('- - - - - - -')
