@@ -1,5 +1,5 @@
 # tic-tac-toe
-tictacto gyakorlat
+tictacto kliens szerver gyakorlat.
 
 REST API dokumentáció
 --------------------
@@ -9,16 +9,23 @@ REST API dokumentáció
 * **Response**: 
 
     * OK (200): 
-      
-      * id=[int]: új játék azonosítója
-      * game=[string]: játéktábla (általában üres tábla)
+    ```
+    id=[int]: új játék azonosítója
+    game=[string]: játéktábla (általában üres tábla)
+    ```
 
 
 ### Futó és befejezett játékok listája: GET /games
 
 * **Response**: 
 
-  * OK (200): futó játékok listája collection: {<game_id>: {game:"\_\_\_\_XO\_\_\_", result:"X"}, <game_id>: {...}, <game_id>: {...}}. 
+  * OK (200): futó játékok listája
+   ```javascript
+   {
+   <game_id>: {game:"____XO___", result:"X"},
+   <game_id>: {...}, <game_id>: {...}
+   }
+   ```
  
 
 ### Játéktábla lekérdezése: GET /game/{id}
@@ -27,22 +34,24 @@ REST API dokumentáció
 * **Response**: 
 
   * OK (200): 
-        
-      * game=[string]: játék táblája. Pl: "\_\_\_XO\_\_X\_\_"
-      * result=[char]: játék eredménye. Lehetséges értékek: 'O', 'X', '_': döntetlen, '': folyamatban
+
+    * game=[string]: játék táblája. Pl: "\_\_\_XO\_\_X\_\_"
+    * result=[char]: játék eredménye. Lehetséges értékek: 'O', 'X', '_': döntetlen, '': folyamatban
+    
   * NOT_FOUND (404): a játéktábla {id} nem található.
 
-### Lépés: PUT /game/{id}/{XO}/{pos}  
+### Lépés: PUT /game/{id}/{p}/{pos}  
 * **URL Params**: 
   
   * {id}=[int]: Game id
-  * {XO}=[char]: Játékos, helyes érték 'X' vagy 'O'.
+  * {p}='X'|'O': Játékos, helyes érték 'X' vagy 'O'.
   * {pos}=[int]: Választott pozíció. Lehetséges értékei: 1-9
 * **Response**:
   
   * OK (200): lépés sikeres. content: {game:"___XO____", result:""}
   * NOT_FOUND (404): pozíció nem található. content: hibaüzenet.
   * FORBIDDEN (403): szabálytalan lépés. content: hibaüzenet.
+  * BAD_REQUEST (400): Hibás adat. content: hibaüzenet.
 
 ### Játék törlése: DELETE  /game/{id}
 * **URL Params**: 
