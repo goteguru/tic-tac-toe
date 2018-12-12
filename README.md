@@ -36,7 +36,7 @@ REST API dokumentáció
 
   * OK (200): 
   ```
-  game=[string]: játék táblája. Pl: "\_\_\_XO\_\_X\_\_"
+  game=[string]: játék táblája. Pl: "___XO__X__"
   result=[char]: játék eredménye. Lehetséges értékek: 'O'|'X'|'-'|''
   
   döntetlen esetén '-', folyamatban lévő játék esetén:''
