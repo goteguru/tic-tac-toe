@@ -4,12 +4,12 @@ tictacto kliens szerver gyakorlat.
 REST API dokumentáció
 --------------------
 
-### Új játék a\*b méretű játék létrehozása: POST /game/new/<a>x<b>
+### Új játék a\*b méretű játék létrehozása: `POST /game/new/<a>x<b>`
 
 * **Params**: 
-   * URL <a>=[int] új játék szélessége, 3-100
-   * URL <b>=[int] új játék magassága, 3-100
-   * POST <win_length>=[int] győzelemhez szükséges hossz, 3-10
+   * `URL <a>=[int]` új játék szélessége, 3-100
+   * `URL <b>=[int]` új játék magassága, 3-100
+   * `POST <win_length>=[int]` győzelemhez szükséges hossz, 3-10
 
 * **Response**: 
    * BAD_REQUEST (400): hibás adat (a,b vagy win_length). Content: hibaüzenet.
@@ -20,7 +20,7 @@ REST API dokumentáció
     ```
 
 
-### Futó és befejezett játékok listája: GET /games
+### Futó és befejezett játékok listája: `GET /games`
 
 * **Response**: 
 
@@ -34,9 +34,9 @@ REST API dokumentáció
    ```
  
 
-### Játéktábla lekérdezése: GET /game/<id>
+### Játéktábla lekérdezése: `GET /game/<id>`
 
-* **URL params**: <id>=[int] kért játék azonosítója
+* **URL params**: `<id>=[int]` kért játék azonosítója
 * **Response**: 
 
   * OK (200): 
@@ -48,7 +48,7 @@ REST API dokumentáció
   ```    
   * NOT_FOUND (404): a játéktábla {id} nem található, content: hibaüzenet.
 
-### Lépés: PUT /game/<id>/<p>/<pos>  
+### Lépés: `PUT /game/<id>/<p>/<pos>`
 * **URL Params**: 
   ```
   <id>=[int]: Game id
@@ -62,7 +62,7 @@ REST API dokumentáció
   * FORBIDDEN (403): szabálytalan lépés. content: hibaüzenet.
   * BAD_REQUEST (400): hibás adat. content: hibaüzenet.
 
-### Játék törlése: DELETE  /game/<id>
+### Játék törlése: `DELETE  /game/<id>`
 * **URL Params**: 
 ``` 
   <id>=[int]: Game id
