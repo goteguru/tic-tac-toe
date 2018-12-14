@@ -7,9 +7,9 @@ REST API dokumentáció
 ### Új játék a\*b méretű játék létrehozása: `POST /game/new`
 
 * **Params**: 
-   * `POST <a>=[int]` új játék szélessége, 3-100
-   * `POST <b>=[int]` új játék magassága, 3-100
-   * `POST <win_length>=[int]` győzelemhez szükséges hossz, 3-10
+   * `POST <width>=[int]` új játék szélessége, range: 3-100
+   * `POST <height>=[int]` új játék magassága, default=<width>, range: 3-100
+   * `POST <win_length>=[int]` győzelemhez szükséges hossz, range: 3-10
 
 * **Response**: 
    * BAD_REQUEST (400): hibás adat (a,b vagy win_length). Content: hibaüzenet.
