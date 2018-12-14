@@ -4,11 +4,11 @@ tictacto kliens szerver gyakorlat.
 REST API dokumentáció
 --------------------
 
-### Új játék a\*b méretű játék létrehozása: `POST /game/new/<a>x<b>`
+### Új játék a\*b méretű játék létrehozása: `POST /game/new`
 
 * **Params**: 
-   * `URL <a>=[int]` új játék szélessége, 3-100
-   * `URL <b>=[int]` új játék magassága, 3-100
+   * `POST <a>=[int]` új játék szélessége, 3-100
+   * `POST <b>=[int]` új játék magassága, 3-100
    * `POST <win_length>=[int]` győzelemhez szükséges hossz, 3-10
 
 * **Response**: 
