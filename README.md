@@ -8,7 +8,7 @@ REST API dokumentáció
 
 * **Params**: 
    * `POST <width>=[int]` új játék szélessége, range: 3-100
-   * `POST <height>=[int]` új játék magassága, default=<width>, range: 3-100
+   * `POST <height>=[int]` új játék magassága, default=`<width>`, range: 3-100
    * `POST <win_length>=[int]` győzelemhez szükséges hossz, range: 3-10
 
 * **Response**: 
