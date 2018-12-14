@@ -12,7 +12,8 @@ REST API dokumentáció
    * `POST <win_length>=[int]` győzelemhez szükséges hossz, range: 3-10
 
 * **Response**: 
-   * BAD_REQUEST (400): hibás adat (a,b vagy win_length). Content: hibaüzenet.
+   * BAD_REQUEST (400): hibás adat . Content: hibaüzenet.
+      width, height vagy win_length nem esik a tartományba, vagy win_length>height vagy win_length>width.
    * OK (200): 
     ```
     id=[int]: új játék azonosítója
