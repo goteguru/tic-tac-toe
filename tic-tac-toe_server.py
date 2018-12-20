@@ -1,21 +1,27 @@
-from bottle import get, post, run, request, response, static_file
+from bottle import get, post, run, request, response, static_file, put, delete
 import json
-game=list("_________")
+id=0
+games={}
 endgame=[(0,1,2), (3,4,5), (6,7,8), (0,4,8), (2,4,6)]
 
-def lep(ember):
-    if game.count("x")==game.count("o"):
+@put("/game/<id>/<p>/<pos>")
+def lep(id, ember, pos):
+    if game.count("x")==games[id][0].count("o"):
         turn="x"
     else:
         turn="o"
-    global game
+    global games
     response.content_type = 'application/json'
-    pos=int(request.forms.get("pos"))-1
-    if pos not in [0,1,2,3,4,5,6,7,8]:
-        return json.dumps({"error": 1, "message": "outofrange"})
+    pos+=-1
+    if pos not in range(games[id][1][0]*games[id][1][1]):
+        response.content_type = 'application/text'
+        response.status=404
+        return "hibás pozíció"
     if turn==ember:
-        if game[pos]=="_":
-            game[pos]=ember
+        if games[id][0][pos]=="_":
+            a=list(games[id][0])
+            a[pos]=ember
+            games[id][0]="".join(a)
             print (game)
             for i in endgame:
                 if i[0]==i[1]==i[2]==ember:
@@ -24,31 +30,47 @@ def lep(ember):
                     return json.dumps({"error": 0, "result": "_", "game": "".join(game)})  
             return json.dumps({"error": 0, "game": "".join(game)})
         else:
-            return json.dumps({"error": 1, "message": "foglalt"})
+            response.content_type = 'application/text'
+            response.status=403
+            return "foglalt"
     else:
-        return json.dumps({"error": 1, "message": "notturn"})
-        
-    
-@post("/x")
-def x():
-    lep("x")
+        response.content_type = 'application/text'
+        response.status=403
+        return "nem te köröd"
 
-@post("/o")
-def o():
-    lep("o")
-
-@get("/newgame")
-def newgame():
-    global game
-    game=list("________")
-    return json.dumps({"error": 0, "game": "".join(game)})
-
-@get("/game")
-def return_game():
-    return json.dumps({"error": 0, "game": "".join(game)})
+@post("/game/new/<width:int>x<height:int>")
+def newgame(width, height):
+    global games, id
+    id+=1
+    if 3<width<100 or 3<height<100  :
+        response.content_type = 'application/text'
+        response.status=400
+        return "hibás adat"
+    games.update({id:[(width*height)*"_", (width, height), request.form.get("win_length")]})
+    return json.dumps({"error": 0, "games": games})
 
 @get('/client')
 def client():
     return static_file("tic-tac-toe_client.html", ".")
+
+@get("/games")
+def return_games():
+    return json.dumps({"error": 0, "game": games})
+
+@get("/game/<id>")
+def return_game(id):
+    if id not in games.keys:
+        response.content_type = 'application/text'
+        response.status=404
+        return "játék nem található"
+    return json.dumps({"error": 0, "game": games[id][0], "result": ""})
+
+@delete(/game/<id>)
+def delete(id):
+    if id not in games.keys:
+        response.content_type = 'application/text'
+        response.status=404
+        return "játék nem található"
+    games.pop(id)
 
 run(host='', port=1111, debug=True)
